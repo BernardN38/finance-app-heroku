@@ -67,7 +67,7 @@ export default function LineChart({ index }) {
     const resData = [];
 
     axios
-      .post(`http://0.0.0.0:8000/api/transactions?type=${types[index]}`)
+      .post(`https://0.0.0.0:8000/api/transactions?type=${types[index]}`)
       .then((response) => {
         console.log(response.data)
         response.data.map((element) => {
