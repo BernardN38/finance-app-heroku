@@ -1,0 +1,2 @@
+#!/bin/sh
+GENIE_ENV=prod julia --color=yes --depwarn=no -q -i -- bootstrap.jl s "$@"

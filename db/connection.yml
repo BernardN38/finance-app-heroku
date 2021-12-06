@@ -1,0 +1,28 @@
+env: ENV["GENIE_ENV"]
+
+dev:
+  adapter: PostgreSQL
+  database: finance_first
+  host: localhost
+  username: eris
+  password:
+  port: 5432
+  config:
+
+prod:
+  adapter: PostgreSQL
+  database: "da207m95vi0a3p"
+  host: "postgres://yorqjzbbswblsp:bebb364db6daa095098f5f3fde5884b1f62a6d4d79acb98962e65d4ec6419cc7@ec2-52-201-72-91.compute-1.amazonaws.com"
+  username:
+  password:
+  port: "5432"
+  config:
+
+test:
+  adapter:
+  database:
+  host:
+  username:
+  password:
+  port:
+  config:
