@@ -1,7 +1,7 @@
 using Revise
 
 haskey(ENV, "HOST") || (ENV["HOST"] = "0.0.0.0")
-haskey(ENV, "GENIE_ENV") || (ENV["GENIE_ENV"] = "dev")
+haskey(ENV, "GENIE_ENV") || (ENV["GENIE_ENV"] = "prod")
 
 ### EARLY BIND TO PORT FOR HOSTS WITH TIMEOUT ###
 
