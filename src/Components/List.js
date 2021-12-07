@@ -4,10 +4,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import axios from "axios";
+import {v4 as uuid} from "uuid";
 
 export default function PinnedSubheaderList({ index }) {
   const[data, setData] = useState([]);
-  const types = ["balance", "deposit", "withdrawal"];
+  const types = ["balance", "deposit", "withdrawal", "retirement", "net_worth"];
   useEffect(() => {
     const resData = [];
 
@@ -15,7 +16,7 @@ export default function PinnedSubheaderList({ index }) {
       .post(`http://0.0.0.0:8000/api/transactions/limit?type=${types[index]}&limit=20`)
       .then((response) => {
         response.data.map((element) => {
-          resData.push(element);
+          return resData.push(element);
         });
         setData(resData);
       })
@@ -41,7 +42,7 @@ export default function PinnedSubheaderList({ index }) {
           <ul>
             <ListSubheader>{`${types[index]} by date`}</ListSubheader>
             {data.map((item) => (
-              <ListItem key={`item-${sectionId}-${item}`}>
+              <ListItem key={uuid()}>
                 <ListItemText primary={` Date:${item.date} Amount: $${item[types[index]]}`} />
               </ListItem>
             ))}

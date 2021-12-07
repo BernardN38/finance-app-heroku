@@ -1,7 +1,7 @@
 using Revise
 
 haskey(ENV, "HOST") || (ENV["HOST"] = "0.0.0.0")
-haskey(ENV, "GENIE_ENV") || (ENV["GENIE_ENV"] = "prod")
+haskey(ENV, "GENIE_ENV") || (ENV["GENIE_ENV"] = "dev")
 haskey(ENV, "DATABASE_URL") || (ENV["DATABASE_URL"] = "postgresql://localhost/test_trans")
 
 ### EARLY BIND TO PORT FOR HOSTS WITH TIMEOUT ###

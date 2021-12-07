@@ -27,7 +27,7 @@ const ExpandMore = styled((props) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
-const types = ["balance", "deposits", "withdrawls"]
+const types = ["balance", "deposits", "withdrawls", "401k", "Net Worth"]
 
 export default function RecipeReviewCard({index}) {
   const [expanded, setExpanded] = useState(false);

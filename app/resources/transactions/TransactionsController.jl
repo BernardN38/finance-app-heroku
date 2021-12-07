@@ -34,13 +34,27 @@ const MONTH_INDEX = Vector{String}([
     "Nov",
     "Dec",
 ])
-
+const DAYS_IN_MONTH = Dict{String,Int}(
+    "Jan" => 31,
+    "Feb" => 28,
+    "Mar" => 31,
+    "Apr" => 30,
+    "May" => 31,
+    "Jun" => 30,
+    "Jul" => 31,
+    "Aug" => 31,
+    "Sep" => 30,
+    "Oct" => 31,
+    "Nov" => 30,
+    "Dec" => 31,
+)
 function get_all()
     conn = LibPQ.Connection(DB_URL)
     result = execute(conn, "SELECT * FROM transactions")
     close(conn)
     return arraytable(result)
 end
+
 
 function get_limit(type::String, limit::String)
     conn = LibPQ.Connection(DB_URL)
@@ -98,15 +112,33 @@ function get_monthly_sums(type::String)
     elseif type == "balance"
         monthly_sums = Dict()
         for i in range(1, length = 12)
+            day = DAYS_IN_MONTH[MONTH_INDEX[i]]
             conn = LibPQ.Connection(DB_URL)
             result = DataFrame(
                 execute(
                     conn,
-                    "SELECT MAX($(type)) from transactions where date ilike '$(i)-%' and $(type) > 0",
+                    "SELECT balance from transactions where date ilike '$(i)-$(day)%' ",
                 ),
             )
             close(conn)
 
+            monthly_sums[MONTH_INDEX[i]] = result[!, 1][1]
+
+        end
+        return json(monthly_sums)
+    elseif type == "retirement"
+        monthly_sums = Dict()
+        for i in range(1, length = 12)
+            day = DAYS_IN_MONTH[MONTH_INDEX[i]]
+            conn = LibPQ.Connection(DB_URL)
+            result = DataFrame(
+                execute(
+                    conn,
+                    "SELECT SUM(withdrawal) from transactions where date ilike '$(i)-%' and description ilike 'retirement%'",
+                ),
+            )
+            close(conn)
+            println(result)
             monthly_sums[MONTH_INDEX[i]] = result[!, 1][1]
 
         end

@@ -11,7 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { amber } from "@mui/material/colors";
+
 
 ChartJS.register(
   CategoryScale,
@@ -39,24 +39,8 @@ export default function LineChart({ index }) {
     "Nov",
     "Dec",
 ]
-  // const labels = [
-  //   "January",
-  //   "February",
-  //   "March",
-  //   "April",
-  //   "May",
-  //   "June",
-  //   "July",
-  //   "August",
-  //   "September",
-  //   "October",
-  //   "November",
-  //   "December",
-  // ];
-  const types = ["balance", "deposit", "withdrawal"];
-  let arr = Object.values(data);
-  let max = Math.max(...arr);
-  let min = Math.min(...arr);
+  const types = ["balance", "deposit", "withdrawal", "retirement", "net_worth", "assests"];
+
   const options = {
     responsive: true,
     plugins: {
@@ -93,12 +77,16 @@ export default function LineChart({ index }) {
     axios
       .post(`http://0.0.0.0:8000/api/transactions/sum?type=${types[index]}`)
       .then((response) => {
-        console.log(response.data)
-        labels.map((month) => {
-          resData.push(response.data[month]);
+
+        labels.map((month,idx) => {
+          if (types[index] === 'retirement'){
+            return resData.push((response.data[month] + resData[idx-1]||0) * 1.006)
+          } else {
+            return resData.push(response.data[month]);
+          }
         });
+        console.log(resData, types[index] )
         setData(resData);
-        console.log(Math.max(...resData));
       })
       .catch((e) => {
         console.log(e);
@@ -113,7 +101,7 @@ export default function LineChart({ index }) {
           labels,
           datasets: [
             {
-              label: types[index],
+              label: types[index] ,
               data: Object.values(data),
               borderColor: "rgb(255, 99, 132)",
               backgroundColor: "rgba(255, 99, 132, 0.5)",

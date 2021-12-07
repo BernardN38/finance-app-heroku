@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -19,7 +19,7 @@ export default function ResponsiveGrid() {
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 2, sm: 8, md: 12 }}
       >
-        {Array.from(Array(3)).map((_, index) => (
+        {Array.from(Array(5)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
             <Item><Card index={index}></Card></Item>
           </Grid>

@@ -8,7 +8,6 @@ end
 
 route("/api/transactions/sum", method = POST) do
     type = params(:type, nothing)
-    # month = params(:month, nothing)
     @time TransactionsController.get_monthly_sums(type)
 end
 route("/api/transactions/limit", method = POST) do
