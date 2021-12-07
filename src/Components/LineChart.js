@@ -75,7 +75,7 @@ export default function LineChart({ index }) {
     const resData = [];
 
     axios
-      .post(`/api/transactions/sum?type=${types[index]}`)
+      .post(`http://financeapp123.herokuapp.com/api/transactions/sum?type=${types[index]}`)
       .then((response) => {
 
         labels.map((month,idx) => {
