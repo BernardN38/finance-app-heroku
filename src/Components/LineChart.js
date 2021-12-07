@@ -75,7 +75,7 @@ export default function LineChart({ index }) {
     const resData = [];
 
     axios
-      .post(`http://0.0.0.0:8000/api/transactions/sum?type=${types[index]}`)
+      .post(`/api/transactions/sum?type=${types[index]}`)
       .then((response) => {
 
         labels.map((month,idx) => {

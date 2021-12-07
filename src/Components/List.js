@@ -13,7 +13,7 @@ export default function PinnedSubheaderList({ index }) {
     const resData = [];
 
     axios
-      .post(`http://0.0.0.0:8000/api/transactions/limit?type=${types[index]}&limit=20`)
+      .post(`/api/transactions/limit?type=${types[index]}&limit=20`)
       .then((response) => {
         response.data.map((element) => {
           return resData.push(element);
