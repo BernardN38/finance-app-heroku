@@ -11,6 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { amber } from "@mui/material/colors";
 
 ChartJS.register(
   CategoryScale,
@@ -25,20 +26,34 @@ ChartJS.register(
 export default function LineChart({ index }) {
   const [data, setData] = useState([]);
   const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
     "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const types = ["balance", "deposits", "withdrawls"];
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+]
+  // const labels = [
+  //   "January",
+  //   "February",
+  //   "March",
+  //   "April",
+  //   "May",
+  //   "June",
+  //   "July",
+  //   "August",
+  //   "September",
+  //   "October",
+  //   "November",
+  //   "December",
+  // ];
+  const types = ["balance", "deposit", "withdrawal"];
   let arr = Object.values(data);
   let max = Math.max(...arr);
   let min = Math.min(...arr);
@@ -55,9 +70,18 @@ export default function LineChart({ index }) {
     },
     scales: {
       y: {
-        max: max * 0.35,
-        min: min * 1.1,
+        // max: max *  1,
+        min: 0,
       },
+      x: {
+        // ticks: {
+        //     callback: function(val, index) {
+        //     // Hide the label of every 2nd dataset
+        //     return index % 2 === 0 ? this.getLabelForValue(val) : '';
+        //   },
+        //   color: 'red',
+        // }
+      }
     },
   };
   function showData() {
@@ -67,11 +91,11 @@ export default function LineChart({ index }) {
     const resData = [];
 
     axios
-      .post(`https://0.0.0.0:8000/api/transactions?type=${types[index]}`)
+      .post(`http://0.0.0.0:8000/api/transactions/sum?type=${types[index]}`)
       .then((response) => {
         console.log(response.data)
-        response.data.map((element) => {
-          resData.push(element[types[index]]);
+        labels.map((month) => {
+          resData.push(response.data[month]);
         });
         setData(resData);
         console.log(Math.max(...resData));

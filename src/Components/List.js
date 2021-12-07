@@ -7,12 +7,12 @@ import axios from "axios";
 
 export default function PinnedSubheaderList({ index }) {
   const[data, setData] = useState([]);
-  const types = ["balance", "deposits", "withdrawls"];
+  const types = ["balance", "deposit", "withdrawal"];
   useEffect(() => {
     const resData = [];
 
     axios
-      .post(`https://0.0.0.0:8000/api/transactions?type=${types[index]}`)
+      .post(`http://0.0.0.0:8000/api/transactions/limit?type=${types[index]}&limit=20`)
       .then((response) => {
         response.data.map((element) => {
           resData.push(element);
@@ -36,13 +36,13 @@ export default function PinnedSubheaderList({ index }) {
       }}
       subheader={<li />}
     >
-      {[0, 1, 2, 3, 4].map((sectionId) => (
+      {[0].map((sectionId) => (
         <li key={`section-${sectionId}`}>
           <ul>
             <ListSubheader>{`${types[index]} by date`}</ListSubheader>
             {data.map((item) => (
               <ListItem key={`item-${sectionId}-${item}`}>
-                <ListItemText primary={` Date:${item.date} Amount:-$${item[types[index]]}`} />
+                <ListItemText primary={` Date:${item.date} Amount: $${item[types[index]]}`} />
               </ListItem>
             ))}
           </ul>

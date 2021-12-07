@@ -13,6 +13,8 @@ const config = Settings(
     cors_allowed_origins = [
         "http://localhost:3000",
         "http://localhost:8000",
+        "https://localhost:3000",
+        "https://localhost:8000",
         "localhost",
         "http://localhost",
         "http://127.0.0.1",
