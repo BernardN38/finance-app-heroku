@@ -13,7 +13,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function ResponsiveGrid() {
   return (
-    <Box m="10px" sx={{ flexGrow: 1 }}>
+    <Box m="5px" sx={{ flexGrow: 1 }}>
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}

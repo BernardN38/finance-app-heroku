@@ -11,9 +11,9 @@ export default function PinnedSubheaderList({ index }) {
   const types = ["balance", "deposit", "withdrawal", "retirement", "net_worth"];
   useEffect(() => {
     const resData = [];
-
+    
     axios
-      .post(`http://financeapp123.herokuapp.com/api/transactions/limit?type=${types[index]}&limit=20`)
+      .get(`http://localhost:8000/api/transactions/limit?type=${types[index]}&limit=20&retirement=${types[index] ==="retirement"? "true":"false" }`)
       .then((response) => {
         response.data.map((element) => {
           return resData.push(element);
@@ -43,7 +43,7 @@ export default function PinnedSubheaderList({ index }) {
             <ListSubheader>{`${types[index]} by date`}</ListSubheader>
             {data.map((item) => (
               <ListItem key={uuid()}>
-                <ListItemText primary={` Date:${item.date} Amount: $${item[types[index]]}`} />
+                <ListItemText primary={` Date:${item.date} Amount: $${item[types[index]]||item["withdrawal"]}`} />
               </ListItem>
             ))}
           </ul>

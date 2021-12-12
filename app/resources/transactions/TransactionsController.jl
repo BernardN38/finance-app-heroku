@@ -56,12 +56,6 @@ function get_all()
 end
 
 
-function get_limit(type::String, limit::String)
-    conn = LibPQ.Connection(DB_URL)
-    result = execute(conn, "SELECT date, $(type) FROM transactions  where $(type) > 0 ORDER BY id DESC LIMIT $(limit)")
-    close(conn)
-    return arraytable(result)
-end
 
 function get_all(type::String, x::Nothing)
     if type in TYPES
@@ -90,6 +84,21 @@ function get_all(type::String, month::String)
             "months include" => keys(MONTHS),
         ))
     end
+end
+
+function get_limit(type::String, limit::String)
+    if type == "net_worth" return json("no data") end
+    conn = LibPQ.Connection(DB_URL)
+    result = execute(conn, "SELECT date, $(type) FROM transactions  where $(type) > 0 ORDER BY id DESC LIMIT $(limit)")
+    close(conn)
+    return arraytable(result)
+end
+function get_limit(type::String, limit::String, retirement::Bool)
+    if retirement == false return get_limit(type,limit) end
+    conn = LibPQ.Connection(DB_URL)
+    result = execute(conn, "SELECT date, withdrawal FROM transactions where description ilike 'retirement%' ORDER BY id DESC LIMIT $(limit)")
+    close(conn)
+    return arraytable(result)
 end
 
 function get_monthly_sums(type::String)
@@ -138,8 +147,31 @@ function get_monthly_sums(type::String)
                 ),
             )
             close(conn)
-            println(result)
+            
             monthly_sums[MONTH_INDEX[i]] = result[!, 1][1]
+
+        end
+        return json(monthly_sums)
+    elseif type == "net_worth"
+        monthly_sums = Dict()
+        for i in range(1, length = 12)
+            day = DAYS_IN_MONTH[MONTH_INDEX[i]]
+            conn = LibPQ.Connection(DB_URL)
+            account_balance = DataFrame(
+                execute(
+                    conn,
+                    "SELECT id,balance from transactions where date ilike '$(i)-$(day)%' ",
+                ),
+            )
+            id = account_balance.id[1]
+            retirement_cont = DataFrame(
+                execute(
+                    conn,
+                    "SELECT SUM(withdrawal) from transactions where id < $(id) and description ilike 'retirement%'",
+                ),
+            )
+            close(conn)
+            monthly_sums[MONTH_INDEX[i]] = account_balance.balance[1] + retirement_cont[!, 1][1]
 
         end
         return json(monthly_sums)

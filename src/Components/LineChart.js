@@ -11,7 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-
+import Capitalize from "../helpers/Capitalize"
 
 ChartJS.register(
   CategoryScale,
@@ -49,7 +49,7 @@ export default function LineChart({ index }) {
       },
       title: {
         display: true,
-        text: `${types[index]} history`,
+        text: `${Capitalize(types[index]).replace("_", " ")} history`,
       },
     },
     scales: {
@@ -75,12 +75,12 @@ export default function LineChart({ index }) {
     const resData = [];
 
     axios
-      .post(`http://financeapp123.herokuapp.com/api/transactions/sum?type=${types[index]}`)
+      .get(`http://localhost:8000/api/transactions/sum?type=${types[index]}`)
       .then((response) => {
 
         labels.map((month,idx) => {
           if (types[index] === 'retirement'){
-            return resData.push((response.data[month] + resData[idx-1]||0) * 1.006)
+            return resData.push(Math.floor((response.data[month] + resData[idx-1]||0) * 1.007))
           } else {
             return resData.push(response.data[month]);
           }
@@ -101,7 +101,7 @@ export default function LineChart({ index }) {
           labels,
           datasets: [
             {
-              label: types[index] ,
+              label: `${Capitalize(types[index]).replace("_", " ")}`,
               data: Object.values(data),
               borderColor: "rgb(255, 99, 132)",
               backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -109,7 +109,7 @@ export default function LineChart({ index }) {
           ],
         }}
       />
-      <button onClick={showData}> button</button>
+      {/* <button onClick={showData}> button</button> */}
     </div>
   );
 }

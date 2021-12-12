@@ -16,7 +16,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import LineChart from "./LineChart";
 import { getCurrentDate } from "../helpers/Date";
 import List from "./List"
-
+import Capitalize from '../helpers/Capitalize'
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -34,9 +34,6 @@ export default function RecipeReviewCard({index}) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  function Capitalize(str){
-    return str.charAt(0).toUpperCase() + str.slice(1);
-    }
   return (
     <Card>
       <CardHeader
@@ -72,7 +69,7 @@ export default function RecipeReviewCard({index}) {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={expanded} timeout="auto" >
         <CardContent>
           <Typography>Last 20 Transactions</Typography>
           <List index={index}/>

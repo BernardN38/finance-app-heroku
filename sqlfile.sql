@@ -24,14 +24,14 @@ SET default_table_access_method = heap;
 -- Name: transactions; Type: TABLE; Schema: public; Owner: eris
 --
 
--- CREATE TABLE public.transactions (
---     id integer NOT NULL,
---     date character varying(40) NOT NULL,
---     balance integer DEFAULT 0,
---     deposit integer DEFAULT 0,
---     withdrawal integer DEFAULT 0,
---     description character varying(30)
--- );
+CREATE TABLE public.transactions (
+    id integer NOT NULL,
+    date character varying(40) NOT NULL,
+    balance integer DEFAULT 0,
+    deposit integer DEFAULT 0,
+    withdrawal integer DEFAULT 0,
+    description character varying(30)
+);
 
 
 -- ALTER TABLE public.transactions OWNER TO eris;
@@ -40,13 +40,13 @@ SET default_table_access_method = heap;
 -- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: eris
 --
 
--- CREATE SEQUENCE public.transactions_id_seq
---     AS integer
---     START WITH 1
---     INCREMENT BY 1
---     NO MINVALUE
---     NO MAXVALUE
---     CACHE 1;
+CREATE SEQUENCE public.transactions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
 -- ALTER TABLE public.transactions_id_seq OWNER TO eris;
