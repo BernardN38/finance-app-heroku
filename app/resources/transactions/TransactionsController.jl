@@ -87,16 +87,26 @@ function get_all(type::String, month::String)
 end
 
 function get_limit(type::String, limit::String)
-    if type == "net_worth" return json("no data") end
+    if type == "net_worth"
+        return json("no data")
+    end
     conn = LibPQ.Connection(DB_URL)
-    result = execute(conn, "SELECT date, $(type) FROM transactions  where $(type) > 0 ORDER BY id DESC LIMIT $(limit)")
+    result = execute(
+        conn,
+        "SELECT date, $(type) FROM transactions  where $(type) > 0 ORDER BY id DESC LIMIT $(limit)",
+    )
     close(conn)
     return arraytable(result)
 end
 function get_limit(type::String, limit::String, retirement::Bool)
-    if retirement == false return get_limit(type,limit) end
+    if retirement == false
+        return get_limit(type, limit)
+    end
     conn = LibPQ.Connection(DB_URL)
-    result = execute(conn, "SELECT date, withdrawal FROM transactions where description ilike 'retirement%' ORDER BY id DESC LIMIT $(limit)")
+    result = execute(
+        conn,
+        "SELECT date, withdrawal FROM transactions where description ilike 'retirement%' ORDER BY id DESC LIMIT $(limit)",
+    )
     close(conn)
     return arraytable(result)
 end
@@ -104,7 +114,7 @@ end
 function get_monthly_sums(type::String)
     if type in TYPES && type != "balance"
         monthly_sums = Dict()
-        for i in range(1, length = 12)
+        for i = 1:12
             conn = LibPQ.Connection(DB_URL)
             result = DataFrame(
                 execute(
@@ -120,7 +130,7 @@ function get_monthly_sums(type::String)
         return json(monthly_sums)
     elseif type == "balance"
         monthly_sums = Dict()
-        for i in range(1, length = 12)
+        for i = 1:12
             day = DAYS_IN_MONTH[MONTH_INDEX[i]]
             conn = LibPQ.Connection(DB_URL)
             result = DataFrame(
@@ -137,7 +147,7 @@ function get_monthly_sums(type::String)
         return json(monthly_sums)
     elseif type == "retirement"
         monthly_sums = Dict()
-        for i in range(1, length = 12)
+        for i = 1:12
             day = DAYS_IN_MONTH[MONTH_INDEX[i]]
             conn = LibPQ.Connection(DB_URL)
             result = DataFrame(
@@ -147,7 +157,7 @@ function get_monthly_sums(type::String)
                 ),
             )
             close(conn)
-            
+
             monthly_sums[MONTH_INDEX[i]] = result[!, 1][1]
 
         end
@@ -171,7 +181,8 @@ function get_monthly_sums(type::String)
                 ),
             )
             close(conn)
-            monthly_sums[MONTH_INDEX[i]] = account_balance.balance[1] + retirement_cont[!, 1][1]
+            monthly_sums[MONTH_INDEX[i]] =
+                account_balance.balance[1] + retirement_cont[!, 1][1]
 
         end
         return json(monthly_sums)
