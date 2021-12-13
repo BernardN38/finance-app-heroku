@@ -7,8 +7,7 @@ const config = Settings(
     log_to_file = false,
     server_handle_static_files = true, # for best performance set up Nginx or Apache web proxies and set this to false
     path_build = "build",
-    format_julia_builds = false,
-    format_html_output = false,
+    websockets_server = false,
     server_document_root = "build",
     cors_allowed_origins = [
         "http://localhost:3000",
