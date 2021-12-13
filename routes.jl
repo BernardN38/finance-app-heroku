@@ -23,6 +23,6 @@ route("/api/transactions") do
     @time TransactionsController.get_all(type, month)
 end
 
-route("*") do
+route("/") do
     serve_static_file("index.html")
 end
