@@ -75,7 +75,7 @@ export default function LineChart({ index }) {
     const resData = [];
 
     axios
-      .get(`http://julia1-7.herokuapp.com/api/transactions/sum?type=${types[index]}`)
+      .get(`http://localhost/api/transactions/sum?type=${types[index]}`)
       .then((response) => {
 
         labels.map((month,idx) => {
