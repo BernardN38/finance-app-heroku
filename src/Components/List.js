@@ -13,7 +13,7 @@ export default function PinnedSubheaderList({ index }) {
     const resData = [];
     
     axios
-      .get(`http://localhost:8000/api/transactions/limit?type=${types[index]}&limit=20&retirement=${types[index] ==="retirement"? "true":"false" }`)
+      .get(`http://financeapp123.herokuapp.com//api/transactions/limit?type=${types[index]}&limit=20&retirement=${types[index] ==="retirement"? "true":"false" }`)
       .then((response) => {
         response.data.map((element) => {
           return resData.push(element);
