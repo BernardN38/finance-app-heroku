@@ -3,6 +3,7 @@ using TransactionsController
 using JSONTables
 
 route("/api/transactions/all") do
+    println(ENV)
     @time TransactionsController.get_all()
 end
 
@@ -23,6 +24,6 @@ route("/api/transactions") do
     @time TransactionsController.get_all(type, month)
 end
 
-route("/") do
+route("*") do
     serve_static_file("index.html")
 end
